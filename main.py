@@ -1,15 +1,35 @@
+from dotenv import load_dotenv
 from get_temperature import get_temperature
 from toggle_fan import toggle_fan
-import time
 
+import time
+import os
+import logging
+
+load_dotenv()
+
+lat = os.getenv('LAT')
+lon = os.getenv('LON')
+api_key = os.getenv('API_KEY')
+
+logging.basicConfig(filename=logname,
+                    filemode='a',
+                    format='%(asctime)s,%(msecs)d %(name)s %(message)s',
+                    datefmt='%H:%M:%S',
+                    level=logging.INFO)
 
 while True:
-    temp = get_temperature()
-    
+    temp = get_temperature(lat, lon, api_key)
+
+    print(temp)
+
     if temp is not None:
-        if temp > 30:
-            toggle_fan('on')
+        if temp > 20:
+            toggle_fan(1)
+            logging.info('ON'))
         else:
-            toggle_fan('off')
+            logging.info('OFF')
+            toggle_fan(0)
     
+    logging.info(f'CURRENT TEMP: {temp}') 
     time.sleep(300)
