@@ -10,19 +10,21 @@ api_key = os.getenv('API_KEY')
 
 api_call = f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}'
 
-response = requests.get(api_call)
 
-data = response.json()
+def get_temperature():
+    response = requests.get(api_call)
 
-if data['cod'] != '404':
-    main = data['main']
+    data = response.json()
 
-    curr_temp = main['feels_like']
+    if data['cod'] != '404':
+        main = data['main']
 
-    curr_temp_celsius = (curr_temp - 273.15)
+        curr_temp = main['feels_like']
 
-    print(curr_temp_celsius)
+        curr_temp_celsius = (curr_temp - 273.15)
 
-else:
-    print("Not found")
+        return round(int(curr_temp_celsius), 2)
+
+    else:
+        return None
 
