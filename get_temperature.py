@@ -1,19 +1,12 @@
-from dotenv import load_dotenv
 import os
 import requests, json
 
-load_dotenv()
+def get_temperature(lat, lon, api_key):
+   
+    api_call = f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}'
 
-lat = os.getenv('LAT')
-lon = os.getenv('LON')
-api_key = os.getenv('API_KEY')
-
-api_call = f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}'
-
-
-def get_temperature():
     response = requests.get(api_call)
-
+    print(response)
     data = response.json()
 
     if data['cod'] != '404':
